@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Данные семестра - Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+    <section class="main-body bg-dark">
+		{% include 'navbar.html' %}
+            <div class="sem-header" style="">
+                <div id="sem-name-wrapper d-flex">
+                    <a class="btn btn-dark semesters-def" href="/profile" role="button" style="margin: 10px;"><< Назад</a>
+                    <div class="" id="sem-name"><h3 class="semesters-def" id="sem-name-h3">{{semester.name}}</h3></div>
+                    <div id="semDelBtn"><a class="btn btn-danger semesters-def" href="/semesters/delete?id={{semester.number}}" style="width:150px;" role="button">Удалить семестр</a></div>
+                </div>
+            </div>
+
+            <div class="card semesters-def">
+            <h4 class="semesters-def">Дисциплины семестра</h4>
+            <div class="d-flex">
+            <a class="btn btn-success semesters-def" href="semesters/discipline/create?sem={{semester.number}}" role="button">Создать +</a>
+            <button type="button" class="btn btn-danger semesters-def" data-toggle="modal" data-target="#deleteDis">
+                    Удалить -
+            </button>
+            {% include 'semesters/dis_delete.html' %}
+<!--            <div style="width: 5px;"></div>-->
+            <a class="btn btn-danger semesters-def" href="/semesters/discipline/delete?all=1&id={{semester.number}}" role="button">Удалить все</a>
+            </div>
+            <table class="table table-hover table-bordered page-element session-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="align-middle">Название</th>
+                        <th class="align-middle">Форма контроля</th>
+                        <th class="align-middle">Преподаватели (семинары/лабы)</th>
+                        <th class="align-middle">Преподаватель (лектор/главный)</th>
+                        <th class="align-middle">Содержание (КМы)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if disciplines %}
+                    {% for d in disciplines %}
+                    <tr>
+                        <td>{{d.name}}</td>
+                        <td>{{d.control}}</td>
+                        <td>{{d.p_teacher}}</td>
+                        <td>{{d.l_teacher}}</td>
+                        <td><a href="/semesters/discipline?sem={{semester.number}}&name={{d.name}}">Редактировать</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="5">Нет дисциплин!</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+            </div>
+<!--            <div style="height: 10px;"></div>-->
+            <div class="card semesters-def">
+            <h4 class="semesters-def">Ведомости дисциплин (успеваемость)</h4>
+            <table class="table table-hover table-bordered page-element session-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="align-middle">Дисциплина</th>
+                        <th class="align-middle">Успеваемость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if disciplines  %}
+                    {% for d in disciplines %}
+                    <tr>
+                        <td>{{d.name}}</td>
+                        <td><a href="/semesters/discipline_marks?sem={{semester.number}}&name={{d.name}}">Редактировать</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="5">Нет дисциплин!</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+            </div>
+            <div style="height: 10px;"></div>
+    </section>
+    {% include 'footer.html' %}
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% load static %}
+<table class="table table-hover table-bordered page-element session-table" style="font-size: 11pt;">
+    <thead class="table-dark">
+        <tr>
+            <th class="align-middle" style="width:300px;">Дисциплина</th>
+            <th class="align-middle" style="width:100px;">Форма контроля</th>
+            <th class="align-middle" style="width:160px;">Оценка</th>
+            <th class="align-middle" style="width:110px;">Дата оценки</th>
+            <th class="align-middle">Пересдача (да/нет)</th>
+            <th class="align-middle">Экзаменатор</th>
+            <th class="align-middle">Преподаватели (семинары/лабы)</th>
+            <th class="align-middle">Главный преподаватель (лектор)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in disciplines %}
+        <tr>
+            <td>{{s.name}}</td>
+            <td>{{s.control}}</td>
+            {% if s.total_mark == 2 and s.retake < 0 %}
+            <td style="color:red;"><strong>{{s.mark}}</strong></td>
+            {% else %}
+
+            {% if s.total_mark != 2 and s.retake < 0 %}
+            <td style="color:green;"><strong>{{s.mark}}</strong></td>
+            {% elif s.total_mark == 2 and s.retake == 2 %}
+            <td style="color:red;"><strong>{{s.ret_mark}} [ППА-{{s.ret_number}}]</strong></td>
+            {% elif s.total_mark != 2 and s.retake > 2 %}
+            <td style="color:green;"><strong>{{s.ret_mark}} [ППА-{{s.ret_number}}]</strong></td>
+            {% endif %}
+
+            {% endif %}
+            <td>{{s.date}}</td>
+            {% if s.retake > 0 %}
+            <td>да</td>
+            {% else %}
+            <td>нет</td>
+            {% endif %}
+            <td>{{s.examiner}}</td>
+            <td>{{s.p_teacher}}</td>
+            <td>{{s.l_teacher}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

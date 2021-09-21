@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Успеваемость Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+<!--	{% include 'header.html' %}-->
+	<section class="main-body">
+		{% include 'navbar.html' %}
+		<div class="wrapper">
+			<div class="sidebar">
+				<div class="list-group sidebar-nav">
+  					<a href="#session-results" class="list-group-item list-group-item-action active sidebar-nav-active" aria-current="true" data-toggle="list" role="tab">
+    					Зачётная книжка
+  					</a>
+  					<a href="#rate-scores" class="list-group-item list-group-item-action sidebar-nav-active" data-toggle="list" role="tab">Рейтинг и баллы</a>
+  					<a href="#course-projects" class="list-group-item list-group-item-action sidebar-nav-active session-menuitem" style="" data-toggle="list" role="tab">
+						Курсовые работы
+					</a>
+ 					<a href="#practice" class="list-group-item list-group-item-action sidebar-nav-active session-menuitem-disabled" data-toggle="list" role="tab">
+						Практика <span class="badge bg-danger"> v2.4.0</span>
+					</a>
+  					<a href="#summary" class="list-group-item list-group-item-action sidebar-nav-active session-menuitem-disabled" style="" tabindex="-1" data-toggle="list" role="tab">
+						Сводка <span class="badge bg-danger"> v3.0.0</span>
+					</a>
+				</div>
+			</div>
+			<div class="main-container">
+  				<div class="card main-card">
+  					<div class="tab-content">
+  						<div class="tab-pane active" id="session-results" role="tabpanel">
+							<p><h3 class="session-h3">Результаты промежуточной аттестации: </h3>
+							<h3 class="session-h3">{{semester.name}} ({{semester.course}} курс)</h3>
+							</p>
+							{% include 'session/results_table.html' %}
+  						</div>
+  						<div class="tab-pane" id="rate-scores" role="tabpanel">
+  							<p><h3 class="session-h3">Рейтинг и "баллы текущего контроля" (ТБ)</h3></p>
+  							{% include 'session/rating_table.html' %}
+  						</div>
+  						<div class="tab-pane" id="course-projects" role="tabpanel">
+  							<p><h3 class="session-h3">Курсовые работы (проекты)</h3></p>
+  							<table class="table table-hover table-bordered page-element session-table">
+  								<thead class="table-dark">
+  									<tr>
+  										<th style="min-width:260px;">Дисциплина</th>
+  										<th>Тема КР/КП</th>
+  										<th style="min-width:130px;">Руководитель</th>
+  										<th style="min-width:140px;">Оценка</th>
+  									</tr>
+  								</thead>
+  								<tbody>
+                                    {% if course_works %}
+									{% for cw in course_works %}
+  									<tr>
+  										<td>{{cw.discipline}}</td>
+  										<td>{{cw.topic}}</td>
+  										<td>{{cw.manager}}</td>
+  										<td>{{cw.mark}}</td>
+  									</tr>
+									{% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4">Нет курсовых работ (проектов)</td>
+                                    </tr>
+                                    {% endif %}
+  								</tbody>
+  							</table>
+  						</div>
+  						<div class="tab-pane" id="practice" role="tabpanel">
+  							<p><h3 class="session-h3">Отчёты по практике</h3></p>
+  							<table class="table table-hover page-element session-table">
+  								<thead>
+  									<tr>
+  										<th>Наименование</th>
+  										<th>Семестр</th>
+  										<th>Тип</th>
+  										<th>Место прохождения</th>
+  										<th>Руководитель от МЭИ</th>
+  										<th>Руководитель от предприятия</th>
+  										<th>В качестве кого работал</th>
+  									</tr>
+  								</thead>
+  								<tbody>
+									{% for r in reports %}
+  									<tr>
+  										<td>{{r.name}}</td>
+  										<td>{{r.sem}}</td>
+  										<td>{{r.type}}</td>
+  										<td>{{r.place}}</td>
+  										<td>{{r.leader_mpei}}</td>
+  										<td>{{r.leader}}</td>
+  										<td>{{r.role}}</td>
+  									</tr>
+									{% endfor %}
+  								</tbody>
+  							</table>
+  						</div>
+                        <div class="tab-pane" id="summary" role="tabpanel">
+  							<p><h3 class="session-h3">Контрольные мероприятия за семестр. Сводка.</h3></p>
+							{% if semester == '2' %}
+							<p><h4 class="session-h4" style="font-style: bold; color: red">С этого семестра семестровый балл считается как ср. арифметическое из</h4>
+							<h4 class="session-h4" style="font-style: bold; color: red">двух оценок в случае переписывания км.</h4>
+							<h4 class="session-h4" style="font-style: bold; color: red">Пример: (0 за км, переписал на 3, тогда сем. балл += вес_км*[(0+3)/2])</h4>
+							</p>
+							{% endif %}
+                            {% include "session/summary_table.html" %}
+                        </div>
+  					</div>
+  					
+  				</div>
+			</div>
+		</div>
+	</section>
+	{% include 'footer.html' %}
+</body>
+</html>

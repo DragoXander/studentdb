@@ -1,0 +1,57 @@
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">MPEI-DB: Туляков А.М.</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Главная</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="sessionDropdown" role="button" data-toggle="dropdown" aria-expanded="false">Успеваемость</a>
+                        <ul class="dropdown-menu" aria-labelledby="sessionDropdown">
+                            <li><h6 class="dropdown-header">Семестр</h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/session?sem=1">Семестр 1 (Курс 1, 2020/2021 осенний)</a></li>
+                            <li><a class="dropdown-item" href="/session?sem=2">Семестр 2 (Курс 1, 2020/2021 весенний)</a></li>
+                            <li><a class="dropdown-item" href="/session?sem=3">Семестр 3 (Курс 2, 2021/2022 осенний)</a></li>
+                            <li><a class="dropdown-item disabled" href="/session?sem=4">Семестр 4 (Курс 2, 2021/2022 весенний)</a></li>
+                            <li><a class="dropdown-item disabled" href="/session?sem=5">Семестр 5 (Курс 3, 2022/2023 осенний)</a></li>
+                            <li><a class="dropdown-item disabled" href="/session?sem=6">Семестр 6 (Курс 3, 2022/2023 весенний)</a></li>
+                            <li><a class="dropdown-item disabled" href="/session?sem=7">Семестр 7 (Курс 4, 2023/2024 осенний)</a></li>
+                            <li><a class="dropdown-item disabled" href="/session?sem=8">Семестр 8 (Курс 4, 2023/2024 весенний)</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">Учебные материалы</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Лекции</a></li>
+                            <li><a class="dropdown-item" href="#">Лабораторные</a></li>
+                            <li><a class="dropdown-item" href="#">Курсовые работы (проекты)</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Учебные пособия</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    {% if not user.is_authenticated %}
+                    <a class="btn btn-outline-success" href="/accounts/login" role="button">Войти</a>
+                    <div style="width:10px;"></div>
+                    <a class="btn btn-outline-success" href="/accounts/signup" role="button">Регистрация</a>
+                    {% else %}
+                    <a class="btn btn-outline-success" href="/profile" role="button">Личный кабинет</a>
+                    <div style="width:10px;"></div>
+                    <a class="btn btn-outline-success" href="/accounts/logout" role="button">Выход</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

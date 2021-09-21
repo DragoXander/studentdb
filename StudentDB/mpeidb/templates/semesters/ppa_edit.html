@@ -1,0 +1,43 @@
+<div class="modal fade" id="ppaEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Повторная промежуточная аттестация: редактирование</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form method="post" style="margin-left: 15px; width:400px;">
+              {% csrf_token %}
+                <div class="form-group">
+                    <label class="">Номер ППА</label><br>
+                    <select class="form-select" name="retake_number" id="retNumber">
+                        {% for c in ret_numbers %}
+                            {% if c == discipline.ret_number %}
+                            <option value="{{c}}" selected>ППА-{{c}}</option>
+                            {% else %}
+                            <option value="{{c}}">ППА-{{c}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Дисциплина</label>
+                    <input name="discipline" type="text" class="form-control" value="{{discipline.name}}" hidden>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Семестр</label>
+                    <input name="sem" type="text" class="form-control" value="{{semester.number}}" hidden>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Раздел изменения</label>
+                    <input name="subject" type="text" class="form-control" value="MIDCERT_RETAKE" hidden>
+                </div>
+                <div style="height:15px;"></div>
+                <button class="btn btn-primary" type="submit">Изменить</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>

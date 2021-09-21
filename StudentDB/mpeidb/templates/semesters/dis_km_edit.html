@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Данные семестра - Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+    <section class="main-body bg-dark">
+		{% include 'navbar.html' %}
+        <div class="sem-header" style="">
+                <a class="btn btn-dark semesters-def" href="/semesters?id={{semester.number}}" role="button" style="margin: 10px;"><< Назад</a>
+        </div>
+<!--            <a class="btn btn-dark semesters-def" href="/semesters?id={{semester.number}}" role="button" style="margin-bottom: 0px;"><< Назад</a>-->
+<!--            <hr>-->
+        <div class="card semesters-def">
+            <h3 class="semesters-def" style="margin-bottom: 0px;"><strong>{{discipline.name}}</strong><br><div style="margin-bottom:15px;"></div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#disInfoModal">Редактировать</button>
+            <a class="btn btn-danger semesters-def" style="margin: 0px; margin-left: 5px;" href="/semesters/discipline/delete?all=0&id={{semester.number}}&name={{discipline.name}}" role="button">Удалить дисциплину</a>
+            </h3>
+            {% include 'semesters/dis_edit.html' %}
+
+            {% if discipline.control == '' %}
+            <label class="semesters-def" style="margin-bottom: 0px;margin-top: 10px;"><strong>Форма контроля:</strong> ---</label>
+            {% else %}
+            <label class="semesters-def" style="margin-bottom: 0px;margin-top: 10px;"><strong>Форма контроля:</strong> {{discipline.control}}</label>
+            {% endif %}
+            {% if discipline.l_teacher == '' %}
+            <label class="semesters-def" style="margin-bottom: 0px;margin-top: 0px;"><strong>Главный преподаватель (лектор):</strong> ---</label>
+            {% else %}
+            <label class="semesters-def" style="margin-bottom: 0px;margin-top: 0px;"><strong>Главный преподаватель (лектор):</strong> {{discipline.l_teacher}}</label>
+            {% endif %}
+            {% if discipline.p_teacher == '' %}
+            <label class="semesters-def" style="margin-bottom: 0px;margin-top: 0px;"><strong>Преподаватель (семинары):</strong> ---</label>
+            {% else %}
+            <label class="semesters-def" style="margin-bottom: 10px;margin-top: 0px;"><strong>Преподаватель (семинары):</strong> {{discipline.p_teacher}}</label>
+            {% endif %}
+            <!--            <hr>--></div>
+        <div class="card semesters-def">
+            <h4 class="semesters-def">Контрольные мероприятия дисциплины</h4>
+
+                <div class="d-flex semesters-def">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Создать
+                </button>
+                {% include 'semesters/km_create.html' %}
+                <div style="width: 10px;"></div>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kmDelModal" onclick="">Удалить</button>
+                </div>
+                {% include 'semesters/km_delete.html' %}
+
+            <table class="table table-hover table-bordered page-element session-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="align-middle">Номер</th>
+                        <th class="align-middle">Описание</th>
+                        <th class="align-middle">Номер недели</th>
+                        <th class="align-middle">Вес</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if events %}
+                    {% for e in events %}
+                    <tr>
+                        <td>{{e.number}}</td>
+                        <td>{{e.desc}}</td>
+                        <td>{{e.week}}</td>
+                        <td>{{e.weight}}%</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="4">Нет контрольных мероприятий!</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div style="height: 10px;"></div>
+    </section>
+    {% include 'footer.html' %}
+</body>
+</html>

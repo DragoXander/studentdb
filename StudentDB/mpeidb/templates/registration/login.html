@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Вход - Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+    <section class="main-body">
+		{% include 'navbar.html' %}
+<!--        <div class="wrapper">-->
+            <h2>Log In</h2><br>
+            <form method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit">Log In</button>
+            </form>
+<!--        </div>-->
+    </section>
+</body>
+</html>

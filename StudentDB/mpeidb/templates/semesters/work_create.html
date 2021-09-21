@@ -1,0 +1,56 @@
+<div class="modal fade" id="workCreate" tabindex="-1" role="dialog" aria-labelledby="workCreate" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Добавить курсовую работу</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form method="post" style="margin-left: 15px; width:400px;">
+              {% csrf_token %}
+<!--                <div class="form-group">-->
+<!--                    <label class="">Семестр</label><br>-->
+<!--                    <select class="form-select" name="sem" id="semSelector">-->
+<!--                        {% for s in semesters %}-->
+<!--                            <option value="{{s}}">{{s.number}}</option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                </div>-->
+                <div class="form-group">
+                    <label class="">Дисциплина</label>
+                    <input name="discipline" type="text" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label class="">Тема КР/КП</label>
+                    <input name="topic" type="text" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label class="">Руководитель</label>
+                    <input name="manager" type="text" class="form-control" value="">
+                </div>
+                <div class="form-group">
+                    <label class="">Оценка</label>
+                    <select class="form-select" name="mark" id="markSelector">
+                        <option value="5">"5" (отлично)</option>
+                        <option value="4">"4" (хорошо)</option>
+                        <option value="3">"3" (удовл.)</option>
+                        <option value="2">"2" (неудовл.)</option>
+                    </select>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Раздел изменения</label>
+                    <input name="subject" type="text" class="form-control" value="COURSE_WORKS_CREATE" hidden>
+                </div>
+                <div style="height:15px;"></div>
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </form>
+      </div>
+<!--      <div class="modal-footer">-->
+<!--&lt;!&ndash;        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>&ndash;&gt;-->
+<!--        <button class="btn btn-success" type="submit">Создать</button>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>

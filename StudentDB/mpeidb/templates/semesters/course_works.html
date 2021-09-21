@@ -1,0 +1,36 @@
+<div class="d-flex semesters-def">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#workCreate">
+            Добавить
+        </button>
+        {% include 'semesters/work_create.html' %}
+        <div style="width: 10px;"></div>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#workDelete" onclick="">Удалить</button>
+</div>
+        {% include 'semesters/work_delete.html' %}
+
+    <table class="table table-sm table-hover table-bordered page-element session-table" style="margin-right:0px;">
+        <thead class="table-dark">
+            <tr>
+                <th class="align-middle" style="min-width:260px;">Дисциплина</th>
+                <th class="align-middle">Тема</th>
+                <th class="align-middle" style="min-width:130px;">Руководитель</th>
+                <th class="align-middle" style="min-width: 140px;">Оценка</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if course_works %}
+            {% for c in course_works %}
+            <tr>
+                <td>{{c.discipline}}</td>
+                <td>{{c.topic}}</td>
+                <td>{{c.manager}}</td>
+                <td><strong>{{c.mark}}</strong></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="4">Нет курсовых работ (проектов)!</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>

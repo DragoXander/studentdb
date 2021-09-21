@@ -1,0 +1,91 @@
+{% load static %}
+<div class="card" style="margin-left: 15px;margin-bottom:10px;width:690px;">
+<h4 class="session-h4">Рейтинг
+    <span class="badge bg-danger"> Будет доступно в версии 3.1.0!</span>
+</h4>
+<!--    <h6 style="margin-left: 15px;">Недоступно!</h6>-->
+<!--<table class="table table-hover page-element session-table">-->
+<!--    <thead>-->
+<!--        <tr>-->
+<!--            <th>Рейтинг</th>-->
+<!--            <th>Значение</th>-->
+<!--        </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--        <tr>-->
+<!--            <td>Учебный</td>-->
+<!--            {% if semester == '1' %}-->
+<!--            <td><strong>81</strong></td>-->
+<!--            {% elif semester == '2' %}-->
+<!--            <td><strong>76</strong></td>-->
+<!--            {% endif %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Научный</td>-->
+<!--            {% if semester == '1' %}-->
+<!--            <td>0</td>-->
+<!--            {% elif semester == '2' %}-->
+<!--            <td>0</td>-->
+<!--            {% endif %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Социальный</td>-->
+<!--            {% if semester == '1' %}-->
+<!--            <td>0</td>-->
+<!--            {% elif semester == '2' %}-->
+<!--            <td>0</td>-->
+<!--            {% endif %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Спортивный</td>-->
+<!--            {% if semester == '1' %}-->
+<!--            <td>0</td>-->
+<!--            {% elif semester == '2' %}-->
+<!--            <td>0</td>-->
+<!--            {% endif %}-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Соц. активности</td>-->
+<!--            {% if semester == '1' %}-->
+<!--            <td>0</td>-->
+<!--            {% elif semester == '2' %}-->
+<!--            <td>0</td>-->
+<!--            {% endif %}-->
+<!--        </tr>-->
+<!--    </tbody>-->
+<!--    <thead>-->
+<!--        <tr>-->
+<!--            <th>Общий рейтинг</th>-->
+<!--            {% if semester == '1' %}-->
+<!--            <td><strong>65</strong></td>-->
+<!--            {% elif semester == '2' %}-->
+<!--            <td><strong>61</strong></td>-->
+<!--            {% endif %}-->
+<!--        </tr>-->
+<!--    </thead>-->
+<!--</table>-->
+</div>
+<div class="card" style="margin-left: 15px;width:690px;">
+<p><h4 class="session-h4">Баллы текущего контроля:</h4></p>
+<table class="table table-hover page-element session-table">
+    <thead>
+        <tr>
+            <th>Дисциплина</th>
+            <th>Балл</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in disciplines %}
+            <tr>
+                <td>{{s.name}}</td>
+                {% if s.score is None %}
+                <td><strong>---</strong></td>
+                {% else %}
+                <td><strong>{{s.score}}</strong></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+</div>

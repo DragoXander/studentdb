@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Создание семестра - Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+    <section class="main-body bg-dark">
+		{% include 'navbar.html' %}
+            <div class="sem-header" style="">
+                <a class="btn btn-dark semesters-def" href="/profile" role="button" style="margin: 10px;"><< Назад</a>
+            </div>
+            <div class="card semesters-def" style="width:695px;">
+            <h3 class="semesters-def">Создать семестр</h3>
+            <form method="post" style="margin-left: 15px; width:400px;">
+              {% csrf_token %}
+                <div class="form-group">
+                    <label class="">{{form.name.label}}</label>
+                    <input name="name" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="">{{form.number.label}}</label>
+                    <input name="number" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="">{{form.course.label}}</label>
+                    <input name="course" type="text" class="form-control">
+                </div>
+                <div style="height:10px;"></div>
+                <button class="btn btn-success" type="submit" style="margin-bottom: 10px;">Создать</button>
+            </form>
+            </div>
+    </section>
+</body>
+</html>

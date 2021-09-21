@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>База учебных материалов Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+<!--	{% include 'header.html' %}-->
+	<section class="main-body" id="main-page-body">
+		{% include 'navbar.html' %}
+		<div class="main-welcome-feed">
+			<div class="card main-welcome-card">
+				<h2 class="card-title">Добро пожаловать!</h2>
+				<p>Создан только для личного пользования. Здесь расположены учебные материалы
+				студента НИУ МЭИ - Тулякова Александра.</p>
+			</div>
+			<div class="card main-welcome-card">
+				<h2 class="card-title">Информация о студенте</h2>
+				<p>Туляков Александр Максимович ({{file_number}})
+					<br>Группа: <strong>{{group}}</strong>.
+<!--					<br>Группа(1 курс): <strong>{{group_1}}</strong>.-->
+				</p>
+
+				<div id="accordion">
+				  <div class="card">
+					<div class="card-header" id="headingOne">
+					  <h5 class="mb-0">
+						<button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+						  Бакалавриат
+						</button>
+					  </h5>
+					</div>
+
+					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+					  <div class="card-body">
+						  <ul class="list-group list-group-flush">
+								<li class="list-group-item"><strong>Номер студ.билета/зач.книжки:</strong> {{cardID}}</li>
+								<li class="list-group-item"><strong>Институт(факультет):</strong> {{faculty}}</li>
+								<li class="list-group-item"><strong>Направление:</strong> {{field_study}}</li>
+								<li class="list-group-item"><strong>Кафедра:</strong> {{department}}</li>
+			<!--					<li class="list-group-item"><strong>Кафедра(1 курс):</strong> {{department_1}}</li>-->
+								<li class="list-group-item"><strong>Квалификация:</strong> {{qualification}}</li>
+								<li class="list-group-item"><strong>Курс:</strong> {{course}}</li>
+								<li class="list-group-item"><strong>Год поступления:</strong> {{admission}}</li>
+								<li class="list-group-item"><strong>Форма обучения:</strong> {{study_form}}</li>
+							</ul>
+							<hr>
+							<h5 style="margin-top: 0px;margin-left:20px;">1 курс (до распределения по профилям):</h5>
+							<hr>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item"><strong>Группа:</strong> {{group_1}}</li>
+								<li class="list-group-item"><strong>Кафедра:</strong> {{department_1}}</li>
+							</ul>
+					  </div>
+					</div>
+
+					  <div class="card-header" id="headingTwo">
+						  <h5 class="mb-0">
+							<button class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							  Магистратура
+							</button>
+						  </h5>
+					  </div>
+
+					  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+					  	<div class="card-body">
+							<p>Нет данных.</p>
+					  	</div>
+					  </div>
+
+				  </div>
+				</div>
+
+<!--				<h3 style="margin-bottom: 15px;margin-top:20px;">Бакалавриат</h3>-->
+<!--				<ul class="list-group list-group-flush">-->
+<!--					<li class="list-group-item"><strong>Номер студ.билета/зач.книжки:</strong> {{cardID}}</li>-->
+<!--					<li class="list-group-item"><strong>Институт(факультет):</strong> {{faculty}}</li>-->
+<!--					<li class="list-group-item"><strong>Направление:</strong> {{field_study}}</li>-->
+<!--					<li class="list-group-item"><strong>Кафедра:</strong> {{department}}</li>-->
+<!--&lt;!&ndash;					<li class="list-group-item"><strong>Кафедра(1 курс):</strong> {{department_1}}</li>&ndash;&gt;-->
+<!--					<li class="list-group-item"><strong>Квалификация:</strong> {{qualification}}</li>-->
+<!--					<li class="list-group-item"><strong>Курс:</strong> {{course}}</li>-->
+<!--					<li class="list-group-item"><strong>Год поступления:</strong> {{admission}}</li>-->
+<!--					<li class="list-group-item"><strong>Форма обучения:</strong> {{study_form}}</li>-->
+<!--				</ul>-->
+<!--				<hr>-->
+<!--				<h5 style="margin-top: 0px;margin-left:20px;">1 курс (до распределения по профилям):</h5>-->
+<!--				<hr>-->
+<!--				<ul class="list-group list-group-flush">-->
+<!--					<li class="list-group-item"><strong>Группа:</strong> {{group_1}}</li>-->
+<!--					<li class="list-group-item"><strong>Кафедра:</strong> {{department_1}}</li>-->
+<!--				</ul>-->
+			</div>
+		</div>
+	</section>
+	{% include 'footer.html' %}
+</body>
+</html>

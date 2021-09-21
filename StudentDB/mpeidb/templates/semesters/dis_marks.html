@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Оценки по дисциплине - Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+    <section class="main-body">
+		{% include 'navbar.html' %}
+            <a class="btn btn-dark semesters-def" href="/semesters?id={{semester.number}}" role="button" style="margin-bottom: 0px;"><< Назад</a>
+            <hr>
+            <h3 class="semesters-def"><strong>Ведомость: {{discipline.name}}</strong></h3>
+            <hr>
+            <div style="margin-left: 15px; height: 20px;"></div>
+            <h4 class="semesters-def">Промежуточная аттестация</h4>
+            <p>
+                <div class="d-flex semesters-def">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tmEditModal">
+                    Редактировать
+                </button>
+                {% include 'semesters/total_marks_edit.html' %}
+                <div style="width:15px;"></div>
+                {% if discipline.retake == -1 or discipline.retake is None %}
+                <button type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#ppaEditModal">
+                    ППА: редактирование
+                </button>
+                {% else %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ppaEditModal">
+                    ППА: редактирование
+                </button>
+                {% include 'semesters/ppa_edit.html' %}
+                {% endif %}
+                </div>
+            </p>
+            <p>
+                {% if discipline.midcert_mark == None %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Промежуточная аттестация: ---</label><br>
+                {% else %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Промежуточная аттестация: <strong>{{discipline.midcert_mark}}</strong></label><br>
+                {% endif %}
+                {% if discipline.retake == None %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Пересдача: ---</label><br>
+                {% elif discipline.retake == -1 %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Пересдача: <strong>не требуется</strong></label><br>
+                {% elif discipline.retake == -2 %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Пересдача: <strong>ожидается</strong></label><br>
+                {% else %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Пересдача: <strong>{{discipline.retake}}</strong></label><br>
+                {% endif %}
+                {% if discipline.total_mark == None %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Итоговая оценка: ---</label><br>
+                {% else %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Итоговая оценка: <strong>{{discipline.total_mark}}</strong></label><br>
+                {% endif %}
+                {% if discipline.date == '' %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Дата оценки: ---</label><br>
+                {% else %}
+                <label class="semesters-def" style="margin-bottom: 0px;">Дата оценки: <strong>{{discipline.date}}</strong></label><br>
+                {% endif %}
+            </p>
+            <div style="margin-left: 15px; height: 20px;">----------------------------------------------------------</div>
+            <h4 class="semesters-def">Семестр</h4>
+            <p>
+                <div class="d-flex semesters-def">
+                {% if events %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#semEditModal">
+                    Редактировать
+                </button>
+                {% include 'semesters/sem_marks_edit.html' %}
+                {% else %}
+                <button type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#semEditModal" disabled>
+                    Редактировать
+                </button>
+                {% endif %}
+                </div>
+            </p>
+            {% if discipline.score == None %}
+            <h6 class="semesters-def">Балл текущего контроля (семестровый): ---</h6>
+            {% else %}
+            <h6 class="semesters-def">Балл текущего контроля (семестровый): <strong>{{discipline.score}}</strong></h6>
+            {% endif %}
+            <table class="table table-hover table-bordered page-element session-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="align-middle">Номер</th>
+                        <th class="align-middle">Контрольное мероприятие</th>
+                        <th class="align-middle">Оценка</th>
+                        <th class="align-middle">Пересдач</th>
+                        <th class="align-middle">Пересданная оценка</th>
+                        <th class="align-middle">Вес</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if events %}
+                    {% for e in events %}
+                    <tr>
+                        <td>{{e.number}}</td>
+                        <td>{{e.desc}}</td>
+                        {% if e.mark == None %}
+                        <td>---</td>
+                        {% else %}
+                        <td><strong>{{e.mark}}</strong></td>
+                        {% endif %}
+                        {% if e.retake %}
+                        <td>{{e.ret_count}}</td>
+                        {% else %}
+                        <td>0</td>
+                        {% endif %}
+                        {% if e.ret_mark %}
+                        <td><strong>{{e.ret_mark}}</strong></td>
+                        {% else %}
+                        <td>нет</td>
+                        {% endif %}
+                        <td>{{e.weight}}%</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="6">Нет контрольных мероприятий!</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+            <h6 class="semesters-def" style="color: red;">Если пересданная оценка стоит, а число пересдач = 0, то значит оценка была проставлена после закрытия БАРС и не учитывается!</h6>
+    </section>
+    {% include 'footer.html' %}
+</body>
+</html>

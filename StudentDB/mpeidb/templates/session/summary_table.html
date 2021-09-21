@@ -1,0 +1,64 @@
+{% load static %}
+<table class="table table-hover table-sm table-bordered page-element session-table">
+    <thead class="table-dark">
+        <tr>
+            <th class="align-middle" rowspan="2">Дисциплина</th>
+<!--            <th class="align-middle" rowspan="2">Тип ПА</th>-->
+            <th class="align-middle" style="text-align: center;" colspan="16">Неделя обучения</th>
+            <th class="align-middle" rowspan="2">ТБ</th>
+            <th class="align-middle" rowspan="2">ПА</th>
+            <th class="align-middle" rowspan="2" style="column-width: 30px;">Пересдача</th>
+            <th class="align-middle" rowspan="2">Итог</th>
+        </tr>
+        <tr>
+            <th class="align-middle">1</th>
+            <th class="align-middle">2</th>
+            <th class="align-middle">3</th>
+            <th class="align-middle">4</th>
+            <th class="align-middle">5</th>
+            <th class="align-middle">6</th>
+            <th class="align-middle">7</th>
+            <th class="align-middle">8</th>
+            <th class="align-middle">9</th>
+            <th class="align-middle">10</th>
+            <th class="align-middle">11</th>
+            <th class="align-middle">12</th>
+            <th class="align-middle">13</th>
+            <th class="align-middle">14</th>
+            <th class="align-middle">15</th>
+            <th class="align-middle">16</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in subjects %}
+        <tr>
+            <td style="">{{s.discipline.name}} ({{s.discipline.control}})</td>
+<!--            <td>{{s.control_form}}</td>-->
+            {% for i in s.control_events %}
+                {% if i == '-2' %}
+                <td></td>
+                {% elif i == '-1' %}
+                <td style="color:red;font-style:bold;">{{i}}</td>
+                {% else %}
+                <td style="color:green;font-style:bold;">{{i}}</td>
+                {% endif %}
+            {% endfor %}
+            {% if s.discipline.score is None %}
+            <td>---</td>
+            {% else %}
+            <td>{{s.discipline.score}}</td>
+            {% endif %}
+            <th style="text-align: center;">{{s.discipline.midcert_mark}}</th>
+            {% if s.discipline.retake < 0 %}
+            <th style="text-align: center;">нет</th>
+            {% else %}
+            <th style="text-align: center;">{{s.discipline.retake}}</th>
+            {% endif %}
+            <th class="table-dark" style="border-bottom: 1px solid #484e53; text-align: center;">{{s.discipline.total_mark}}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h6 class="session-h3">* - оценка за КМ отсутствует (не проставлена)</h6>
+<h6 class="session-h3">0 - отсутствовал на занятии</h6>
+<h6 class="session-h3">/ - переписанное км (пример: 5/2, 2 переписана на 5)</h6>

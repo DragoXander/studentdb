@@ -1,0 +1,51 @@
+<div class="modal fade" id="disInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Редактирование дисциплины</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form method="post" style="margin-left: 15px; width:400px;">
+              {% csrf_token %}
+                <div class="form-group">
+                    <label>Форма контроля</label>
+                    <select class="form-select" name="control" id="controlSelector">
+                        {% for c in control_forms %}
+                        {% if c == discipline.control %}
+                        <option value="{{c}}" selected>{{c}}</option>
+                        {% else %}
+                        <option value="{{c}}">{{c}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="">Главный преподаватель (лектор)</label>
+                    <input name="l_teacher" type="text" class="form-control" value="{{discipline.l_teacher}}">
+                </div>
+                <div class="form-group">
+                    <label class="">Преподаватель (семинары)</label>
+                    <input name="p_teacher" type="text" class="form-control" value="{{discipline.p_teacher}}">
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Дисциплина</label>
+                    <input name="discipline" type="text" class="form-control" value="{{discipline.name}}" hidden>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Семестр</label>
+                    <input name="sem" type="text" class="form-control" value="{{semester.number}}" hidden>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Раздел изменения</label>
+                    <input name="subject" type="text" class="form-control" value="INFO" hidden>
+                </div>
+                <div style="height:15px;"></div>
+                <button class="btn btn-primary" type="submit">Изменить</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
