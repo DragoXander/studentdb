@@ -295,12 +295,21 @@ class EditSemester(View):
         context = {
             'user': request.user,
         }
-        sem = request.POST['sem']
-        name = request.POST['dis']
-        s = Semester.objects.get(number=int(sem))
-        d = Discipline.objects.filter(semester=s).get(name=name)
-        d.delete()
-        return redirect('/semesters?id=' + sem)
+        subject = request.POST['subject']
+        if subject == 'DELETE':
+            sem = request.POST['sem']
+            name = request.POST['dis']
+            s = Semester.objects.get(number=int(sem))
+            d = Discipline.objects.filter(semester=s).get(name=name)
+            d.delete()
+            return redirect('/semesters?id=' + sem)
+        elif subject == 'DELETE_ALL':
+            sem = request.POST['sem']
+            s = Semester.objects.get(number=int(sem))
+            ds = Discipline.objects.filter(semester=s)
+            for d in ds:
+                d.delete()
+            return redirect('/semesters?id=' + sem)
 
 class DeleteSemester(View):
     def get(self, request):
@@ -392,9 +401,9 @@ class EditDisciplineKM(View):
             s = Semester.objects.get(number=int(sem))
             dis = Discipline.objects.filter(semester=s).get(name=name)
             ce = ControlEvent()
-            ce.number = number
-            ce.week = week
-            ce.weight = weight
+            ce.number = int(number)
+            ce.week = int(week)
+            ce.weight = int(weight)
             ce.desc = desc
             ce.discipline = dis
             ce.save()
@@ -422,6 +431,36 @@ class EditDisciplineKM(View):
             dis.l_teacher = l_teacher
             dis.p_teacher = p_teacher
             dis.save()
+            return redirect('/semesters/discipline?sem=' + str(s.number) + '&name=' + dis.name, context=context)
+        elif subject == 'EDIT':
+            name = data['discipline']
+            sem = data['sem']
+            km = data['km']
+            s = Semester.objects.get(number=int(sem))
+            dis = Discipline.objects.filter(semester=s).get(name=name)
+            ce = ControlEvent.objects.filter(discipline=dis).get(number=int(km))
+            number = data['number']
+            desc = data['desc']
+            weight = data['weight']
+            week = data['week']
+            if len(number) > 0:
+                ce.number = int(number)
+            if len(desc) > 0:
+                ce.desc = desc
+            if len(weight) > 0:
+                ce.weight = int(weight)
+            if len(week) > 0:
+                ce.week = int(week)
+            ce.save()
+            return redirect('/semesters/discipline?sem=' + str(s.number) + '&name=' + dis.name, context=context)
+        elif subject == 'DELETE_ALL':
+            name = data['discipline']
+            sem = data['sem']
+            s = Semester.objects.get(number=int(sem))
+            dis = Discipline.objects.filter(semester=s).get(name=name)
+            ce = ControlEvent.objects.filter(discipline=dis)
+            for ev in ce:
+                ev.delete()
             return redirect('/semesters/discipline?sem=' + str(s.number) + '&name=' + dis.name, context=context)
 
 class EditDisciplineMarks(View):

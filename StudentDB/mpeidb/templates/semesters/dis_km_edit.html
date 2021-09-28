@@ -7,7 +7,7 @@
 	{% include 'default_css_js.html' %}
 </head>
 <body>
-    <section class="main-body bg-dark">
+    <div class="main-body bg-dark">
 		{% include 'navbar.html' %}
         <div class="sem-header" style="">
                 <a class="btn btn-dark semesters-def" href="/semesters?id={{semester.number}}" role="button" style="margin: 10px;"><< Назад</a>
@@ -41,14 +41,28 @@
             <h4 class="semesters-def">Контрольные мероприятия дисциплины</h4>
 
                 <div class="d-flex semesters-def">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Создать
-                </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Создать
+                    </button>
                 {% include 'semesters/km_create.html' %}
-                <div style="width: 10px;"></div>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#kmDelModal" onclick="">Удалить</button>
-                </div>
+
+                {% if events %}
+                    <button type="button" class="btn btn-primary" style="margin-left: 10px;" data-toggle="modal" data-target="#kmEditModal">Редактировать</button>
+                {% else %}
+                    <button type="button" class="btn btn-primary disabled" style="margin-left: 10px;" data-toggle="modal" data-target="#kmEditModal">Редактировать</button>
+                {% endif %}
+                {% include 'semesters/km_edit.html' %}
+
+                {% if events %}
+                    <button type="button" class="btn btn-danger" style="margin-left: 10px;" data-toggle="modal" data-target="#kmDelModal" onclick="">Удалить</button>
+                    <button type="button" class="btn btn-danger" style="margin-left: 10px;" data-toggle="modal" data-target="#kmDelAllModal" onclick="">Удалить все</button>
+                {% else %}
+                    <button type="button" class="btn btn-danger disabled" style="margin-left: 10px;" data-toggle="modal" data-target="#kmDelModal" onclick="">Удалить</button>
+                    <button type="button" class="btn btn-danger disabled" style="margin-left: 10px;" data-toggle="modal" data-target="#kmDelAllModal" onclick="">Удалить все</button>
+                {% endif %}
                 {% include 'semesters/km_delete.html' %}
+                {% include 'semesters/km_delete_all.html' %}
+                </div>
 
             <table class="table table-hover table-bordered page-element session-table">
                 <thead class="table-dark">

@@ -21,12 +21,21 @@
             <h4 class="semesters-def">Дисциплины семестра</h4>
             <div class="d-flex">
             <a class="btn btn-success semesters-def" href="semesters/discipline/create?sem={{semester.number}}" role="button">Создать +</a>
-            <button type="button" class="btn btn-danger semesters-def" data-toggle="modal" data-target="#deleteDis">
+            {% if disciplines %}
+                <button type="button" class="btn btn-danger semesters-def" data-toggle="modal" data-target="#deleteDis">
+                        Удалить -
+                </button>
+                {% include 'semesters/dis_delete.html' %}
+                <button type="button" class="btn btn-danger semesters-def" data-toggle="modal" data-target="#disDelAllModal">Удалить все</button>
+                {% include 'semesters/dis_delete_all.html' %}
+            {% else %}
+                <button type="button" class="btn btn-danger semesters-def disabled" data-toggle="modal" data-target="#deleteDis">
                     Удалить -
-            </button>
-            {% include 'semesters/dis_delete.html' %}
-<!--            <div style="width: 5px;"></div>-->
-            <a class="btn btn-danger semesters-def" href="/semesters/discipline/delete?all=1&id={{semester.number}}" role="button">Удалить все</a>
+                </button>
+                {% include 'semesters/dis_delete.html' %}
+                <button type="button" class="btn btn-danger semesters-def disabled" data-toggle="modal" data-target="#disDelAllModal">Удалить все</button>
+                {% include 'semesters/dis_delete_all.html' %}
+            {% endif %}
             </div>
             <table class="table table-hover table-bordered page-element session-table">
                 <thead class="table-dark">
