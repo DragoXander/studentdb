@@ -86,16 +86,16 @@ class ControlEvent(models.Model):
     # оценка за км
     mark = models.IntegerField(null=True)
 
-    #пересдавалась?
+    # пересдавалась?
     retake = models.BooleanField(default=False)
 
-    #пересданная оценка
+    # пересданная оценка
     ret_mark = models.IntegerField(null=True)
 
-    #кол-во пересдач
+    # кол-во пересдач
     ret_count = models.IntegerField(null=True)
 
-    #вес км
+    # вес км
     weight = models.IntegerField(default=0)
 
 
@@ -111,3 +111,29 @@ class CourseWork(models.Model):
 
     # оценка
     mark = models.CharField(max_length=30)
+
+
+class Report(models.Model):
+    # номер порядковый
+    number = models.IntegerField()
+
+    # семестр
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+
+    # тип отчёта
+    type = models.CharField(max_length=120, default='')
+
+    # дисциплина
+    discipline = models.CharField(max_length=120, default='')
+
+    # руководитель от предприятия
+    leader = models.CharField(max_length=120, default='')
+
+    # руководитель от МЭИ
+    leader_mpei = models.CharField(max_length=120, default='')
+
+    # в качестве кого работал (роль)
+    role = models.CharField(max_length=120, default='')
+
+    # место прохождения практики
+    place = models.CharField(max_length=120, default='')

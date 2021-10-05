@@ -39,7 +39,10 @@
 							<p><h3 class="semesters-def">Профиль</h3></p>
   						</div>
   						<div class="tab-pane" id="reports_db" role="tabpanel">
-							<p><h3 class="semesters-def">Отчёты</h3></p>
+							<div class="card semesters-def">
+                            <h3 class="semesters-def">Отчёты</h3><hr style="margin: 0px;">
+                            {% include 'semesters/reports.html' %}
+							</div>
   						</div>
   						<div class="tab-pane" id="course_works_db" role="tabpanel">
 							<div class="card semesters-def">

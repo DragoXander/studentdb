@@ -1,0 +1,75 @@
+<div class="modal fade" id="createReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Создать отчёт</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {% if semesters %}
+          <form method="post" style="margin-left: 15px; width:400px;">
+              {% csrf_token %}
+                <div class="form-group">
+                    <label class="">Номер</label>
+                    <input name="number" type="text" class="form-control" value="{{last_report_number}}" readonly disabled>
+                </div>
+                <div class="form-group">
+                    <label class="">Семестр</label>
+                    <select class="form-select" name="sem" id="semSelector">
+                        {% for s in semesters %}
+                        <option value="{{s.number}}">{{s.name}} (№{{s.number}})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="">Тип отчёта</label>
+                    <select class="form-select" name="type" id="typeSelector">
+                        {% for t in types %}
+                        <option value="{{t}}">{{t}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="">Дисциплина</label>
+                    <input name="discipline" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="">В качестве кого работал</label>
+                    <select class="form-select" name="role" id="roleSelector">
+                        {% for r in roles %}
+                        <option value="{{r}}">{{r}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="">Руководитель от предприятия</label>
+                    <input name="leader" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="">Руководитель от МЭИ</label>
+                    <input name="leader_mpei" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="">Место прохождения практики</label>
+                    <input name="place" type="text" class="form-control">
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Раздел изменения</label>
+                    <input name="subject" type="text" class="form-control" value="REP_CREATE" hidden>
+                </div>
+                <div style="height:15px;"></div>
+                <button class="btn btn-success" type="submit">Создать</button>
+            </form>
+          {% else %}
+            <h6>Ошибка: Нет доступных семестров!</h6>
+          {% endif %}
+      </div>
+<!--      <div class="modal-footer">-->
+<!--&lt;!&ndash;        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>&ndash;&gt;-->
+<!--        <button class="btn btn-success" type="submit">Создать</button>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.views import generic, View
 
 from .forms import SemesterCreationForm
-from .models import Semester, Discipline, ControlEvent, CourseWork
+from .models import Semester, Discipline, ControlEvent, CourseWork, Report
 from decimal import Decimal
 
 def index(request):
@@ -28,15 +28,15 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-class Report:
-    def __init__(self, name='', sem='', type='', place='', leader_mpei='', leader='', role=''):
-        self.name = name
-        self.sem = sem
-        self.type = type
-        self.place = place
-        self.leader_mpei = leader_mpei
-        self.leader = leader
-        self.role = role
+# class Report:
+#     def __init__(self, name='', sem='', type='', place='', leader_mpei='', leader='', role=''):
+#         self.name = name
+#         self.sem = sem
+#         self.type = type
+#         self.place = place
+#         self.leader_mpei = leader_mpei
+#         self.leader = leader
+#         self.role = role
 
 
 class Subject:
@@ -217,7 +217,12 @@ class Profile(View):
 
         }
         semesters = Semester.objects.all()
+        reports = Report.objects.all()
         context['semesters'] = semesters
+        context['reports'] = reports
+        context['roles'] = ['Практикант', 'Сотрудник']
+        context['types'] = ['Материалы прохождения практики']
+        context['last_report_number'] = len(reports)+1
         context['course_works'] = CourseWork.objects.all()
         return render(request, 'profile.html', context)
 
@@ -246,12 +251,48 @@ class Profile(View):
             cw = CourseWork.objects.get(topic=cw_topic)
             cw.delete()
             return redirect('/profile')
+        elif request.POST['subject'] == 'REP_CREATE':
+            number = len(Report.objects.all())+1
+            sem = request.POST['sem']
+            semester = Semester.objects.get(number=sem)
+            type = request.POST['type']
+            discipline = request.POST['discipline']
+            leader = request.POST['leader']
+            leader_mpei = request.POST['leader_mpei']
+            place = request.POST['place']
+            role = request.POST['role']
+            r = Report()
+            r.number = number
+            r.semester = semester
+            r.type = type
+            r.discipline = discipline
+            r.leader = leader
+            r.leader_mpei = leader_mpei
+            r.place = place
+            r.role = role
+            r.save()
+            return redirect('/profile')
+        elif request.POST['subject'] == 'REP_DELETE':
+            number = request.POST['report']
+            r = Report.objects.get(number=int(number))
+            for i in range(int(number)+1, Report.objects.count()+1):
+                rep = Report.objects.get(number=i)
+                rep.number = i - 1
+                rep.save()
+            r.delete()
+            return redirect('/profile')
+        elif request.POST['subject'] == 'REP_DELETE_ALL':
+            for r in Report.objects.all():
+                r.delete()
+            return redirect('/profile')
+
 
 class CreateSemester(View):
 
     def get(self, request):
         context = {
             'user': request.user,
+            'err': request.GET['err']
         }
         form = SemesterCreationForm()
         context['form'] = form
@@ -266,11 +307,14 @@ class CreateSemester(View):
         number = data['number']
         course = data['course']
         s = Semester()
-        s.name = name
-        s.number = int(number)
-        s.course = int(course)
-        s.save()
-        return redirect('/profile')
+        if Semester.objects.filter(name=name).exists() or Semester.objects.filter(number=number).exists() or Semester.objects.filter(course=course).count() > 1:
+            return redirect('/semesters/create?err=1')
+        else:
+            s.name = name
+            s.number = int(number)
+            s.course = int(course)
+            s.save()
+            return redirect('/profile')
 
 
 class EditSemester(View):

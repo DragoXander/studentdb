@@ -14,6 +14,19 @@
             </div>
             <div class="card semesters-def" style="width:695px;">
             <h3 class="semesters-def">Создать семестр</h3>
+            {% if err == '1' %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Ошибка!</strong> Семестр уже существует с введёнными данными. Проверьте, что:<br>
+                    <ul>
+                        <li>Номер курса доступен (существует меньше двух семестров данного курса)</li>
+                        <li>Семестр с данным именем ещё не существует.</li>
+                        <li>Семестр с данным номером ещё не существует.</li>
+                    </ul>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            {% endif %}
             <form method="post" style="margin-left: 15px; width:400px;">
               {% csrf_token %}
                 <div class="form-group">

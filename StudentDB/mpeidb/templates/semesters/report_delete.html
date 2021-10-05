@@ -1,0 +1,39 @@
+<div class="modal fade" id="deleteReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Удалить отчёт</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {% if semesters %}
+          <form method="post" style="margin-left: 15px; width:400px;">
+              {% csrf_token %}
+                <div class="form-group">
+                    <label class="">Отчёт</label>
+                    <select class="form-select" name="report" id="repSelector">
+                        {% for r in reports %}
+                        <option value="{{r.number}}">{{r.number}}: {{r.semester.name}}, {{r.discipline}}, {{r.role}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="" hidden>Раздел изменения</label>
+                    <input name="subject" type="text" class="form-control" value="REP_DELETE" hidden>
+                </div>
+                <div style="height:15px;"></div>
+                <button class="btn btn-danger" type="submit">Удалить</button>
+            </form>
+          {% else %}
+            <h6>Ошибка: Нет доступных семестров!</h6>
+          {% endif %}
+      </div>
+<!--      <div class="modal-footer">-->
+<!--&lt;!&ndash;        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>&ndash;&gt;-->
+<!--        <button class="btn btn-success" type="submit">Создать</button>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>
