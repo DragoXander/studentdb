@@ -258,3 +258,9 @@ button::-moz-focus-inner {
     height: 100%;
     bottom: 5px;
 }
+
+a.disabled {
+    pointer-events: none; /* делаем ссылку некликабельной */
+    cursor: default;  /* устанавливаем курсор в виде стрелки */
+    color: red; /* цвет текста для нективной ссылки */
+}

@@ -20,8 +20,8 @@
   					<a href="#course-projects" class="list-group-item list-group-item-action sidebar-nav-active session-menuitem" style="" data-toggle="list" role="tab">
 						Курсовые работы
 					</a>
- 					<a href="#practice" class="list-group-item list-group-item-action sidebar-nav-active session-menuitem-disabled" data-toggle="list" role="tab">
-						Практика <span class="badge bg-danger"> v2.4.0</span>
+ 					<a href="#practice" class="list-group-item list-group-item-action sidebar-nav-active session-menuitem" data-toggle="list" role="tab">
+						Практика
 					</a>
   					<a href="#summary" class="list-group-item list-group-item-action sidebar-nav-active session-menuitem-disabled" style="" tabindex="-1" data-toggle="list" role="tab">
 						Сводка <span class="badge bg-danger"> v3.0.0</span>
@@ -72,32 +72,42 @@
   						</div>
   						<div class="tab-pane" id="practice" role="tabpanel">
   							<p><h3 class="session-h3">Отчёты по практике</h3></p>
-  							<table class="table table-hover page-element session-table">
-  								<thead>
-  									<tr>
-  										<th>Наименование</th>
-  										<th>Семестр</th>
-  										<th>Тип</th>
-  										<th>Место прохождения</th>
-  										<th>Руководитель от МЭИ</th>
-  										<th>Руководитель от предприятия</th>
-  										<th>В качестве кого работал</th>
-  									</tr>
-  								</thead>
-  								<tbody>
+  							<table class="table table-hover table-bordered page-element session-table">
+								<thead class="">
+									<tr>
+										<th class="align-middle" style="max-width:50px;">№</th>
+										<th class="align-middle">Семестр</th>
+										<th class="align-middle">Тип отчёта</th>
+										<th class="align-middle">Дисциплина</th>
+										<th class="align-middle" style="max-width:132px;">Руководитель (предприятие)</th>
+										<th class="align-middle" style="max-width:130px;">Руководитель (МЭИ)</th>
+										<th class="align-middle" style="width:100px;max-width:100px;">Роль</th>
+										<th class="align-middle">Место практики</th>
+										<th class="align-middle">Действия</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% if reports  %}
 									{% for r in reports %}
-  									<tr>
-  										<td>{{r.name}}</td>
-  										<td>{{r.sem}}</td>
-  										<td>{{r.type}}</td>
-  										<td>{{r.place}}</td>
-  										<td>{{r.leader_mpei}}</td>
-  										<td>{{r.leader}}</td>
-  										<td>{{r.role}}</td>
-  									</tr>
+									<tr>
+										<td>{{r.number}}</td>
+										<td>{{r.semester.name}}</td>
+										<td>{{r.type}}</td>
+										<td>{{r.discipline}}</td>
+										<td>{{r.leader}}</td>
+										<td>{{r.leader_mpei}}</td>
+										<td>{{r.role}}</td>
+										<td>{{r.place}}</td>
+										<td><a href="/" class="disabled">Файлы</a> <span class="badge bg-danger"> v3.0.0</span></td>
+									</tr>
 									{% endfor %}
-  								</tbody>
-  							</table>
+									{% else %}
+									<tr>
+										<td colspan="9">Нет отчётов!</td>
+									</tr>
+								{% endif %}
+								</tbody>
+							</table>
   						</div>
                         <div class="tab-pane" id="summary" role="tabpanel">
   							<p><h3 class="session-h3">Контрольные мероприятия за семестр. Сводка.</h3></p>

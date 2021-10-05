@@ -52,7 +52,7 @@
             <th class="align-middle" style="max-width:130px;">Руководитель (МЭИ)</th>
             <th class="align-middle" style="width:100px;max-width:100px;">Роль</th>
             <th class="align-middle">Место практики</th>
-            <th class="align-middle">Действия</th>
+            <th class="align-middle">Действия<span class="badge bg-danger"> v3.0.0</span></th>
         </tr>
     </thead>
     <tbody>
@@ -67,7 +67,7 @@
             <td>{{r.leader_mpei}}</td>
             <td>{{r.role}}</td>
             <td>{{r.place}}</td>
-            <td><a href="/">Редактировать</a><br><a href="/">Файлы</a></td>
+            <td><a href="/" class="disabled">Редактировать</a><br><a href="/" class="disabled">Файлы</a></td>
         </tr>
         {% endfor %}
         {% else %}
