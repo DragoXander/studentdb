@@ -17,25 +17,39 @@
         <tr>
             <td>{{s.name}}</td>
             <td>{{s.control}}</td>
-            {% if s.total_mark == 2 and s.retake < 0 %}
-            <td style="color:red;"><strong>{{s.mark}}</strong></td>
+            {% if s.midcert_mark >= 0 %}
+
+                {% if s.midcert_mark == 2 and s.retake < 0 %}
+                <td style="color:red;"><strong>{{s.mark}}</strong></td>
+
+                {% elif s.midcert_mark > 2 and s.retake < 0 %}
+                <td style="color:green;"><strong>{{s.mark}}</strong></td>
+                {% elif s.midcert_mark <= 2 and s.retake >= 0 and s.retake <= 2 %}
+                    {% if s.ret_number < 3 and s.ret_number > 0 %}
+                     <td style="color:red;"><strong>{{s.ret_mark}} [ППА-{{s.ret_number}}]</strong></td>
+                    {% elif s.ret_number == 3 %}
+                    <td style="color:red;"><strong>{{s.ret_mark}} [КС]</strong></td>
+                    {% endif %}
+                {% elif s.midcert_mark <= 2 and s.retake > 2 %}
+                    {% if s.ret_number < 3 and s.ret_number > 0 %}
+                    <td style="color:green;"><strong>{{s.ret_mark}} [ППА-{{s.ret_number}}]</strong></td>
+                    {% elif s.ret_number == 3 %}
+                    <td style="color:green;"><strong>{{s.ret_mark}} [КС]</strong></td>
+                    {% endif %}
+                {% endif %}
+
             {% else %}
-
-            {% if s.total_mark != 2 and s.retake < 0 %}
-            <td style="color:green;"><strong>{{s.mark}}</strong></td>
-            {% elif s.total_mark == 2 and s.retake == 2 %}
-            <td style="color:red;"><strong>{{s.ret_mark}} [ППА-{{s.ret_number}}]</strong></td>
-            {% elif s.total_mark != 2 and s.retake > 2 %}
-            <td style="color:green;"><strong>{{s.ret_mark}} [ППА-{{s.ret_number}}]</strong></td>
+            <td></td>
             {% endif %}
 
-            {% endif %}
             <td>{{s.date}}</td>
+
             {% if s.retake > 0 %}
             <td>да</td>
             {% else %}
             <td>нет</td>
             {% endif %}
+
             <td>{{s.examiner}}</td>
             <td>{{s.p_teacher}}</td>
             <td>{{s.l_teacher}}</td>
@@ -43,3 +57,11 @@
         {% endfor %}
     </tbody>
 </table>
+<div class="page-element"><span style="color:blue;"><strong>
+    <p>
+        Пересдачи:<br>
+        [ППА-1] - Повторная промежуточная аттестация №1<br>
+        [ППА-2] - Повторная промежуточная аттестация №2<br>
+        [КС] - Повторная промежуточная аттестация №3 (Красная сессия)
+    </p>
+</strong></span></div>

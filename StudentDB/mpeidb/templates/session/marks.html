@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Успеваемость Туляков А.М. НИУ МЭИ</title>
+	<meta name="description" content="MPEI: DB of student Tulyakov A. M.">
+	{% include 'default_css_js.html' %}
+</head>
+<body>
+<!--	{% include 'header.html' %}-->
+	<section class="main-body">
+		{% include 'navbar.html' %}
+		<div class="wrapper">
+			<div class="main-container">
+  				<div class="card main-card">
+                    <h3 class="session-h3">Зачётная книжка</h3>
+                    <div class="dropdown show" style="margin-left: 15px;margin-bottom:10px;">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Семестр
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="/marks?sem=1">2020/2021 Осенний семестр</a>
+                            <a class="dropdown-item" href="/marks?sem=2">2020/2021 Весенний семестр</a>
+                            <a class="dropdown-item" href="/marks?sem=3">2021/2022 Осенний семестр</a>
+                            <a class="dropdown-item" href="/marks?sem=4">2021/2022 Весенний семестр</a>
+                        </div>
+                    </div>
+                    {% include 'session/marks_table.html' %}
+  				</div>
+			</div>
+		</div>
+	</section>
+	{% include 'footer.html' %}
+</body>
+</html>

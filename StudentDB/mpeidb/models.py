@@ -43,7 +43,7 @@ class Discipline(models.Model):
     retake = models.IntegerField(null=True)
 
     # номер ППА (если была)
-    ret_number = models.IntegerField(null=True)
+    ret_number = models.IntegerField(default=0, null=False)
 
     # оценка за пересдачу (для зачётной книжки)
     ret_mark = models.CharField(default='', max_length=30)

@@ -1,4 +1,5 @@
 import decimal
+from itertools import chain
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -21,9 +22,10 @@ def index(request):
         'department': 'Вычислительные машины, комплексы, системы и сети',
         'department_1': 'Диагностические информационные технологии (ДИТ)',
         'qualification': 'Бакалавр',
-        'course': '1',
+        'course': '2',
         'admission': '2020',
-        'study_form': 'Очная, бюджет',
+        'study_form': 'Очная, бюджет, платно (3 семестр)',
+        'status': 'обучается',
     }
     return render(request, 'index.html', context)
 
@@ -136,40 +138,40 @@ class DisciplineObject:
         self.discipline = discipline
         self.kms = ControlEvent.objects.filter(discipline=discipline)
         self.control_events = [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2]
-        #flag = False
-        #f_km = None
-        for i in range(16):
-            flag = False
-            f_km = None
-            #w = Week(i)
-            for km in self.kms:
-                if km.number == i:
-                    flag = True
-                    # w.kms.append(km)
-                    f_km = km
-            if flag:
-                #if len(w.kms) == 1:
-                    if f_km.mark is None:
-                        self.control_events[i] = '-1'
-                    elif f_km.mark == 2:
-                        if f_km.ret_mark <= 2:
-                            self.control_events[i] = str(f_km.mark)
-                        else:
-                            self.control_events[i] = str(f_km.ret_mark)+'/'+str(f_km.mark)
-                    elif f_km.mark == 0:
-                        if f_km.ret_mark <= 2:
-                            self.control_events[i] = str(f_km.mark)
-                        else:
-                            self.control_events[i] = str(f_km.ret_mark) + '/' + str(f_km.mark)
-                    else:
-                        self.control_events[i] = str(f_km.mark)
-                # elif len(w.kms) > 1:
-                #     s = ''
-                #     for k in w.kms:
-                #         if k.mark is None:
-                #             pass
-            else:
-                self.control_events[i] = '-2'
+        # #flag = False
+        # #f_km = None
+        # for i in range(16):
+        #     flag = False
+        #     f_km = None
+        #     #w = Week(i)
+        #     for km in self.kms:
+        #         if km.number == i:
+        #             flag = True
+        #             # w.kms.append(km)
+        #             f_km = km
+        #     if flag:
+        #         #if len(w.kms) == 1:
+        #             if f_km.mark is None:
+        #                 self.control_events[i] = '-1'
+        #             elif f_km.mark == 2:
+        #                 if f_km.ret_mark <= 2:
+        #                     self.control_events[i] = str(f_km.mark)
+        #                 else:
+        #                     self.control_events[i] = str(f_km.ret_mark)+'/'+str(f_km.mark)
+        #             elif f_km.mark == 0:
+        #                 if f_km.ret_mark <= 2:
+        #                     self.control_events[i] = str(f_km.mark)
+        #                 else:
+        #                     self.control_events[i] = str(f_km.ret_mark) + '/' + str(f_km.mark)
+        #             else:
+        #                 self.control_events[i] = str(f_km.mark)
+        #         # elif len(w.kms) > 1:
+        #         #     s = ''
+        #         #     for k in w.kms:
+        #         #         if k.mark is None:
+        #         #             pass
+        #     else:
+        #         self.control_events[i] = '-2'
 
         # self.kms = []
         # for e in ce:
@@ -381,8 +383,10 @@ class CreateDiscipline(View):
         }
         data = request.POST
         name = data['name']
-        if Discipline.objects.filter(name=name).exists():
-            sem = data['semester']
+        sem = data['semester']
+        s = Semester.objects.get(number=int(sem))
+        if Discipline.objects.filter(semester=s).filter(name=name).exists():
+            #sem = data['semester']
             #context['error'] = 1
             return redirect('/semesters/discipline/create?sem=' + sem + '&error=1', context=context)
         else:
@@ -519,7 +523,7 @@ class EditDisciplineMarks(View):
         context['semester'] = s
         context['discipline'] = dis
         context['control_forms'] = ['Экзамен', 'Зачет с оценкой', 'Зачет', 'АВТОМАТ', 'Защита КР/КП']
-        context['ret_numbers'] = [1, 2]
+        context['ret_numbers'] = [1, 2, 3]
         return render(request, 'semesters/dis_marks.html', context)
 
     def post(self, request):
@@ -687,3 +691,35 @@ def progress(request):
         'course_works': course_works,
     }
     return render(request, 'progress.html', context)
+
+
+def marks(request):
+    sem = request.GET['sem']
+    #sem1 = Semester.objects.get(number=1)
+    dis1 = Discipline.objects.filter(semester=Semester.objects.get(number=int(sem)))
+    # dis2 = Discipline.objects.filter(semester=Semester.objects.get(number=2))
+    # dis3 = Discipline.objects.filter(semester=Semester.objects.get(number=3))
+
+    #dis = list(chain(dis1, dis2, dis3))
+
+    for d in dis1:
+        if d.date.count('/') > 0:
+            tmp = d.date.split('/')[0]
+            d.date = tmp
+
+    exams = []
+    zach = []
+    for d in dis1:
+        if d.control == 'АВТОМАТ' or d.control == 'Экзамен' or d.control == 'Защита КР/КП':
+            exams.append(d)
+        else:
+            zach.append(d)
+
+    context = {
+        'semester': int(sem),
+        # 'subjects': discip_objects,
+        'disciplines': dis1,
+        'exams': exams,
+        'zach': zach,
+    }
+    return render(request, 'session/marks.html', context)

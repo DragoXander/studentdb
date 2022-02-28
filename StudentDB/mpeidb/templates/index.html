@@ -20,7 +20,17 @@
 				<h2 class="card-title">Информация о студенте</h2>
 				<p>Туляков Александр Максимович ({{file_number}})
 					<br>Группа: <strong>{{group}}</strong>.
-<!--					<br>Группа(1 курс): <strong>{{group_1}}</strong>.-->
+					{% if status == 'обучается' %}
+					<br>Статус: <strong style="color:green;">{{status}}</strong>.
+					{% elif status == 'выпускник' %}
+					<br>Статус: <strong style="color:blue;">{{status}}</strong>.
+					{% elif status == 'временно допущен к обучению' %}
+					<br>Статус: <strong style="color:gold;">{{status}}</strong>.
+					{% elif status == 'отчисление' %}
+					<br>Статус: <strong style="color:orange;">{{status}}</strong>.
+					{% elif status == 'отчислен' %}
+					<br>Статус: <strong style="color:red;">{{status}}</strong>.
+					{% endif %}
 				</p>
 
 				<div id="accordion">
